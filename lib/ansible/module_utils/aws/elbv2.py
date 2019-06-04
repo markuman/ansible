@@ -712,7 +712,11 @@ class ELBListenerRules(object):
         condition_found = False
 
         for current_condition in current_conditions:
-            if current_condition['Field'] == condition['Field'] and current_condition['Values'][0] == condition['Values'][0]:
+            if current_condition.get('SourceIpConfig'):
+                if current_condition['Field'] == condition['Field'] and current_condition['SourceIpConfig']['Values'][0] == condition['SourceIpConfig']['Values'][0]:
+                    condition_found = True
+                    break
+            elif current_condition['Field'] == condition['Field'] and current_condition['Values'][0] == condition['Values'][0]:
                 condition_found = True
                 break
 
